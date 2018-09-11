@@ -18,6 +18,7 @@ NAVBAR
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    z-index: 2;
 }
 
 .fond_ecran {
@@ -30,6 +31,7 @@ NAVBAR
     background-position: 50% 50%;
     background-image:url(image/blur.jpg);
     background-repeat:repeat;
+    z-index: 0;
 }
 
 .user_info {
@@ -90,9 +92,14 @@ LISTE
 */
 
 .search_list {
+    clear: both;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 62px;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 
 .list {
@@ -101,11 +108,11 @@ LISTE
     padding: 16px;
     background-color: beige;
     border-bottom: solid;
+    border-width: 1px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    
     flex-wrap: nowrap;
 }
 
