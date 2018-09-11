@@ -12,6 +12,6 @@
 echo $avis;
 echo $idU;
 echo $idR;
-//header("location: index.php?idU=$idU&idR=$idR");
+header("location: popupCommentaire.php?idU=$idU&idR=$idR");
 ?>
 

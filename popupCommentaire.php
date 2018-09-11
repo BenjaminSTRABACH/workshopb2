@@ -5,6 +5,7 @@ include 'bootstrap.php';
 include_once 'Config.php';
 $idU = $_GET['idU'];
 $idR = $_GET['idR'];
+$db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Config::UTILISATEUR, Config::MOTDEPASSE);
 ?>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -18,9 +19,19 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-            Tokken +1
-        </button>
+        <?php
+        $sql = $db->prepare("SELECT COUNT(*) FROM avis where idU=$idU & idR=$idR");
+        $sql->execute();
+        $result = $sql->fetch();
+        if ($result[0] <1) {
+            ?>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Tokken +1
+            </button>
+            <?php
+        }
+        ?>
+       
 
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
