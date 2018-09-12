@@ -23,17 +23,20 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 <img class="profile_pict_small" src="medias/user.jpg">
                 <p class="profile_name">Benjamin STRABACH</p>
             </div>
-            <div class="searchbar">
+            <form class="searchbar" action="home.php">
                 <input class="search-bar" type="text" placeholder="Rechercher">
-                <input class="search-btn" type="submit" value="Rechercher">
-            </div>
+                <input class="search-btn" type="submit" value="Rechercher"> <!-- Bouton de recherche -->
+            </form>
             <div class="disconnect">
                 <input class="disconnect-btn" type="button" value="Déconnexion">
             </div>
         </div>
 
         <?php 
-        $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville` FROM `resto`");
+        $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                             JOIN `categories` ON resto.idC = categories.idC");
+        // $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` JOIN `categories`
+        //                      WHERE idC.resto = idC.categories");
         $sql->execute();
         $result = $sql->fetchAll();
         ?>
@@ -48,10 +51,10 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     <p class="place_address"><?php echo($address)?></p>
                     <div class="category">
                         <img class="category_pict" src="medias/logo_category.png">
-                        <p class="category_text">Vegan</p>
+                        <p class="category_text"><?php echo($result[$i][4])?></p>
                     </div>
                     <div class="token_score">
-                    
+                    <p class="token_score_text">324</p>
                     </div>
                 </div>
                 <?php
@@ -66,7 +69,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     <p class="category_text">Vegan</p>
                 </div>
                 <div class="token_score">
-                    
+                    <p class="token_score_text">Nombre de tokens</p>
                 </div>
             </div>
         </div>
