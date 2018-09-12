@@ -93,7 +93,6 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 </div>
             </div>
             <div class="item">
-                <i class="marker icon"></i>
                 <div class="content">
                     <?php
                     $sqa = $db->prepare("SELECT COUNT(*) FROM avis where idU=$idU && idR=$idR");

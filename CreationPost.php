@@ -7,6 +7,6 @@
         $sql = $db->prepare("INSERT INTO `avis` (`idR`, `idU`, `Avis`) VALUES ('$idR', '$idU', '$avis')");
         $sql->execute();
         
-header("location: index.php?idU=$idU&idR=$idR");
+header("location: PageResto.php?idU=$idU&idR=$idR");
 ?>
 
