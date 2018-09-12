@@ -1,5 +1,3 @@
-<!--<!DOCTYPE html>
-
 <?php
 include 'bootstrap.php';
 include_once 'Config.php';
@@ -8,21 +6,7 @@ $idR = $_GET['idR'];
 $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Config::UTILISATEUR, Config::MOTDEPASSE);
 ?>
 
-<html>
-    <head>
-        <title>PageResto</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div class="row">
-            <div class="col-md-1">marge</div>
-            <div class="col-md-2">Col1</div>
-            <div class="col-md-2">Col3</div>
-            <div class="col-md-7">marge</div>
-        </div>
-    </body>
-</html>-->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,10 +40,16 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         </div>
         <div class="row">
             <div class="col-md-5">
+                <?php
+                $req = $db->prepare("SELECT `Nom` FROM `resto` WHERE idR=$idR");
+                $req->execute();
+                $nameR = $req->fetch();
+                $nomR = $nameR[0];
+                ?>
                 <h1>Nom du restaurant</h1>
             </div>
         </div>
-        <h1>Nom du restaurant</h1><br>
+        <h1><?php echo $nomR ?></h1><br>
         <div class="ui horizontal list">
             <div class="item">
                 <i class="marker icon"></i>
@@ -115,9 +105,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-            <div class="6">
-                Vide
-            </div>
+
         </div>
 
         <div class="row">
@@ -133,9 +121,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-            <div class="6">
-                Vide
-            </div>
+           
         </div>
 
         <div class="row">
@@ -151,9 +137,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-            <div class="6">
-                Vide
-            </div>
+         
         </div>
 
         <div class="row">
@@ -169,9 +153,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-            <div class="6">
-                Vide
-            </div>
+           
         </div>
         <br>
         <?php
@@ -184,5 +166,39 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         //$address = "16 Boulevard Général de Gaulle, 44200 Nantes";
         echo '<iframe width="100%" height="170" frameborder="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $address)) . '&z=14&output=embed"></iframe>';
         ?>
+        
+        
+        <!--------------------------------------Popup---------------------------------------------------------------------------->
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter un commentaire (facultatif)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form  action="CreationPost.php?idU=<?php echo $idU ?>&idR=<?php echo $idR ?>" method="post">
+
+                            <div id="objet" class="form-group">
+
+                                <label for="Commentaire">Commentaire</label>
+
+                                <input type="text" class="form-control" name="Commentaire">
+                                <!-- <div class="form-group">
+                                                      <label for="inputdefault">Nom</label>
+                                                      <input type='text' name='Nom' required placeholder="Votre nom d'utilisateur">-->
+                            </div>
+                            <div id="boutonform">
+                                <input class="btn btn-outline-secondary" type="submit" value="Envoyer">
+                            </div>
+
+                        </form>    
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
