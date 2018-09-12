@@ -7,11 +7,6 @@
         $sql = $db->prepare("INSERT INTO `avis` (`idR`, `idU`, `Avis`) VALUES ('$idR', '$idU', '$avis')");
         $sql->execute();
         
- 
- 
-echo $avis;
-echo $idU;
-echo $idR;
-header("location: popupCommentaire.php?idU=$idU&idR=$idR");
+header("location: index.php?idU=$idU&idR=$idR");
 ?>
 

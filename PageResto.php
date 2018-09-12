@@ -76,7 +76,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     $TelR = $PhR[0];
                     ?>
 
-                    <a>0<?php echo $TelR ?></a>
+                    <a tel=<?php echo "0".$TelR ?>>0<?php echo $TelR ?></a>
                 </div>
             </div>
             <div class="item">
@@ -96,10 +96,11 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 <i class="marker icon"></i>
                 <div class="content">
                     <?php
-                    $sqa = $db->prepare("SELECT COUNT(*) FROM avis where idU=$idU & idR=$idR");
+                    $sqa = $db->prepare("SELECT COUNT(*) FROM avis where idU=$idU && idR=$idR");
                     $sqa->execute();
                     $tokken = $sqa->fetch();
-                    if ($tokken[0] < 1) {
+                    
+                    if ($tokken[0] == 0) {
                         ?>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
                             Tokken +1
@@ -180,9 +181,9 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         </div>
         <br>
         <?php
-        $sql = $db->prepare("SELECT `Adresse`, `Code_Postal`, `Ville` FROM `resto` WHERE idR=$idR");
-        $sql->execute();
-        $result = $sql->fetchAll();
+        $sqb = $db->prepare("SELECT `Adresse`, `Code_Postal`, `Ville` FROM `resto` WHERE idR=$idR");
+        $sqb->execute();
+        $result = $sqb->fetchAll();
         $address = $result[0]['Adresse'] . " " . $result[0]['Code_Postal'] . " " . $result[0]['Ville'];
 
 
@@ -202,31 +203,34 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             $sql = $db->prepare("SELECT * FROM `avis` join `user` on user.idUser=avis.idU WHERE idR=$idR");
             $sql->execute();
             $comment = $sql->fetchAll();
-            $nomU = $comment[$i]['FirstName']." ".$comment[$i]['LastName'];
+            $nomU = $comment[$i]['FirstName'] . " " . $comment[$i]['LastName'];
+            if ($comment[$i]['Avis']!=""){
             echo $nomU;
             echo '<br>';
             echo $comment[$i]['Avis'];
+            echo'<br>';
+            }
         }
-            ?>
+        ?>
 
 
 
 
 
 
-            <!--------------------------------------Popup---------------------------------------------------------------------------->
+        <!--------------------------------------Popup---------------------------------------------------------------------------->
 
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter un commentaire (facultatif)</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form  action="CreationPost.php?idU=<?php echo $idU ?>&idR=<?php echo $idR ?>" method="post">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter un commentaire (facultatif)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form  action="CreationPost.php?idU=<?php echo $idU ?>&idR=<?php echo $idR ?>" method="post">
 
                             <div id="objet" class="form-group">
 
