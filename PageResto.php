@@ -118,66 +118,166 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         </div>
         <div class="row">
             <div class="col-md-2">
-                Col1
+                Vegan
             </div>
             <div class="col-md-1">
-                Col2
+                <?php
+                $sql2 = $db->prepare("SELECT vegan from resto where idR=$idR");
+                $sql2->execute();
+                $resultat2 = $sql2->fetch();
+                if ($resultat2['vegan'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat2['vegan'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
+<!--                <i class="fas fa-check fa-lg" style="color:green;" ></i>-->
             </div>
             <div class="col-md-2">
-                Col3
+                	Air Conditionné
             </div>
             <div class="col-md-1">
-                Col4
+                <?php
+                $sql3 = $db->prepare("SELECT air from resto where idR=$idR");
+                $sql3->execute();
+                $resultat3 = $sql3->fetch();
+                if ($resultat3['air'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat3['air'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Parking
+            </div>
+            <div class="col-md-1">
+                <?php
+                $sql4 = $db->prepare("SELECT parking from resto where idR=$idR");
+                $sql4->execute();
+                $resultat4 = $sql4->fetch();
+                if ($resultat4['parking'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat4['parking'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="col-md-2">
+                Sans Gluten
+            </div>
+            <div class="col-md-1">
+                <?php
+                $sql5 = $db->prepare("SELECT gluten from resto where idR=$idR");
+                $sql5->execute();
+                $resultat5 = $sql5->fetch();
+                if ($resultat5['gluten'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat5['gluten'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-md-2">
-                Col1
+                Accesibilité Handicapé
             </div>
             <div class="col-md-1">
-                Col2
+                <?php
+                $sql6 = $db->prepare("SELECT handicap from resto where idR=$idR");
+                $sql6->execute();
+                $resultat6 = $sql6->fetch();
+                if ($resultat6['handicap'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat6['handicap'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
             </div>
             <div class="col-md-2">
-                Col3
+                Plats BIO
             </div>
             <div class="col-md-1">
-                Col4
+                 <?php
+                $sql7 = $db->prepare("SELECT bio from resto where idR=$idR");
+                $sql7->execute();
+                $resultat7 = $sql7->fetch();
+                if ($resultat7['bio'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat7['bio'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
             </div>
-
         </div>
 
         <div class="row">
             <div class="col-md-2">
-                Col1
+                Terrasse
             </div>
             <div class="col-md-1">
-                Col2
+                 <?php
+                $sql8 = $db->prepare("SELECT terrasse from resto where idR=$idR");
+                $sql8->execute();
+                $resultat8 = $sql8->fetch();
+                if ($resultat8['terrasse'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat8['terrasse'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
             </div>
             <div class="col-md-2">
-                Col3
+                Menu enfants
             </div>
             <div class="col-md-1">
-                Col4
+                 <?php
+                $sql9 = $db->prepare("SELECT enfant from resto where idR=$idR");
+                $sql9->execute();
+                $resultat9 = $sql9->fetch();
+                if ($resultat9['enfant'] == '1') {
+                    ?>
+                    <i class="fas fa-check fa-lg" style="color:green;" ></i>
+                    <?php
+                } else if ($resultat9['enfant'] == '0'){
+                    ?>
+                    <i class="fas  fa-times fa-lg" style="color:red;"></i>
+                    <?php
+                }
+                ?>
             </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-2">
-                Col1
-            </div>
-            <div class="col-md-1">
-                Col2
-            </div>
-            <div class="col-md-2">
-                Col3
-            </div>
-            <div class="col-md-1">
-                Col4
-            </div>
-
         </div>
         <br>
         <?php
