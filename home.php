@@ -2,10 +2,16 @@
 include 'bootstrap.php';
 include_once 'Config.php';
 $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Config::UTILISATEUR, Config::MOTDEPASSE);
-if (isset($_GET['search'])){
-    $search = $_GET['search'];
+
+if (isset($_GET['place'])){
+    $searchP = $_GET['place'];
 } else {
-    $search = "";
+    $searchP = "";
+}
+if (isset($_GET['category'])){
+    $searchC = $_GET['category'];
+} else {
+    $searchC = "";
 }
 ?>
 
@@ -29,7 +35,8 @@ if (isset($_GET['search'])){
                 <p class="profile_name">Benjamin STRABACH</p>
             </div>
             <form class="searchbar" action="home.php" method="get">
-                <select class="search-bar" type="text" name="search" placeholder="Catégorie">
+                <input class="search-place" type="text" name="place" placeholder="Ville">
+                <select class="search-category" name="category" placeholder="Catégorie">
                     <option value="">- Catégorie -</option>
                     <option value="Pizza">Pizza</option>
                     <option value="Kebab">Kebab</option>
@@ -42,13 +49,20 @@ if (isset($_GET['search'])){
         </div>
 
         <?php 
-        if($search != ""){
+        if($searchP != "" && $searchC != ""){   //Tout plein
             $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
-                                 JOIN `categories` ON resto.idC = categories.idC WHERE categories.LabelC='$search'");
-        } else {
+                                 JOIN `categories` ON resto.idC = categories.idC WHERE resto.Ville LIKE '%$searchP%' && categories.LabelC='$searchC'");
+        } else if($searchP != "" && $searchC == "") { //Ville mais pas Catégorie
+            $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC WHERE resto.Ville LIKE '%$searchP%'");
+        } else if($searchC != "" && $searchP == ""){  //Pas Ville mais Catégorie
+            $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC WHERE categories.LabelC='$searchC'");
+        } else {    //Tout vide
             $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
                                  JOIN `categories` ON resto.idC = categories.idC");
         }
+
         // $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
         //                      JOIN `categories` ON resto.idC = categories.idC");
         $sql->execute();
