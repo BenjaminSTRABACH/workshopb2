@@ -8,6 +8,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
 
 
 <!DOCTYPE html>
+
 <html>
     <head>
         <title>PageResto</title>
@@ -46,7 +47,9 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 $nameR = $req->fetch();
                 $nomR = $nameR[0];
                 ?>
-                <h1>Nom du restaurant</h1>
+                <br>
+                <br>
+
             </div>
         </div>
         <h1><?php echo $nomR ?></h1><br>
@@ -54,19 +57,39 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="item">
                 <i class="marker icon"></i>
                 <div class="content">
-                    Nantes
+                    <?php
+                    $req = $db->prepare("SELECT `Ville` FROM `resto` WHERE idR=$idR");
+                    $req->execute();
+                    $CityR = $req->fetch();
+                    $VilleR = $CityR[0];
+                    ?>
+                    <?php echo $VilleR ?>
                 </div>
             </div>
             <div class="item">
                 <i class="phone icon"></i>
                 <div class="content">
-                    <a>02 43 25 83 85</a>
+                    <?php
+                    $req = $db->prepare("SELECT `Telephone` FROM `resto` WHERE idR=$idR");
+                    $req->execute();
+                    $PhR = $req->fetch();
+                    $TelR = $PhR[0];
+                    ?>
+
+                    <a>0<?php echo $TelR ?></a>
                 </div>
             </div>
             <div class="item">
                 <i class="linkify icon"></i>
                 <div class="content">
-                    <a href="#">nomdurestaurant.com</a>
+                    <?php
+                    $req = $db->prepare("SELECT `Site` FROM `resto` WHERE idR=$idR");
+                    $req->execute();
+                    $WR = $req->fetch();
+                    $SiteR = $WR[0];
+                    ?>
+
+                    <a href="<?php echo $SiteR ?>">Le Site Internet</a>
                 </div>
             </div>
             <div class="item">
@@ -121,7 +144,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-           
+
         </div>
 
         <div class="row">
@@ -137,7 +160,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-         
+
         </div>
 
         <div class="row">
@@ -153,7 +176,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             <div class="col-md-1">
                 Col4
             </div>
-           
+
         </div>
         <br>
         <?php
@@ -166,21 +189,44 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         //$address = "16 Boulevard Général de Gaulle, 44200 Nantes";
         echo '<iframe width="100%" height="170" frameborder="0" src="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=' . str_replace(",", "", str_replace(" ", "+", $address)) . '&z=14&output=embed"></iframe>';
         ?>
-        
-        
-        <!--------------------------------------Popup---------------------------------------------------------------------------->
 
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter un commentaire (facultatif)</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form  action="CreationPost.php?idU=<?php echo $idU ?>&idR=<?php echo $idR ?>" method="post">
+        <h1>Commentaires</h1>
+        <br>
+
+        <?php
+        $nombreA = "SELECT COUNT(*) AS nb FROM Avis where idR=$idR";
+        $fromage = $db->query($nombreA);
+        $columns = $fromage->fetch();
+        $nb = $columns['nb'];
+        for ($i = 0; $i < $nb; $i++) {
+            $sql = $db->prepare("SELECT * FROM `avis` join `user` on user.idUser=avis.idU WHERE idR=$idR");
+            $sql->execute();
+            $comment = $sql->fetchAll();
+            $nomU = $comment[$i]['FirstName']." ".$comment[$i]['LastName'];
+            echo $nomU;
+            echo '<br>';
+            echo $comment[$i]['Avis'];
+        }
+            ?>
+
+
+
+
+
+
+            <!--------------------------------------Popup---------------------------------------------------------------------------->
+
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Ajouter un commentaire (facultatif)</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form  action="CreationPost.php?idU=<?php echo $idU ?>&idR=<?php echo $idR ?>" method="post">
 
                             <div id="objet" class="form-group">
 
