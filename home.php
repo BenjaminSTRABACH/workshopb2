@@ -2,6 +2,11 @@
 // include 'bootstrap.php';
 include_once 'Config.php';
 $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Config::UTILISATEUR, Config::MOTDEPASSE);
+if (isset($_GET['search'])){
+    $search = $_GET['search'];
+} else {
+    $search = "";
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +28,12 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 <img class="profile_pict_small" src="medias/user.jpg">
                 <p class="profile_name">Benjamin STRABACH</p>
             </div>
-            <form class="searchbar" action="home.php">
-                <input class="search-bar" type="text" placeholder="Rechercher">
+            <form class="searchbar" action="home.php" method="get">
+                <select class="search-bar" type="text" name="search" placeholder="Catégorie">
+                    <option value="">- Catégorie -</option>
+                    <option value="Pizza">Pizza</option>
+                    <option value="Kebab">Kebab</option>
+                </select>
                 <input class="search-btn" type="submit" value="Rechercher"> <!-- Bouton de recherche -->
             </form>
             <div class="disconnect">
@@ -33,10 +42,15 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         </div>
 
         <?php 
-        $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
-                             JOIN `categories` ON resto.idC = categories.idC");
-        // $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` JOIN `categories`
-        //                      WHERE idC.resto = idC.categories");
+        if($search != ""){
+            $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC WHERE categories.LabelC='$search'");
+        } else {
+            $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC");
+        }
+        // $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+        //                      JOIN `categories` ON resto.idC = categories.idC");
         $sql->execute();
         $result = $sql->fetchAll();
         ?>
@@ -61,17 +75,6 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             }
 
             ?>
-            <div class="list">
-                <strong class="place_name">Nom restaurant</strong>
-                <p class="place_address">Adresse</p>
-                <div class="category">
-                    <img class="category_pict" src="medias/logo_category.png">
-                    <p class="category_text">Vegan</p>
-                </div>
-                <div class="token_score">
-                    <p class="token_score_text">Nombre de tokens</p>
-                </div>
-            </div>
         </div>
     </div>
 
