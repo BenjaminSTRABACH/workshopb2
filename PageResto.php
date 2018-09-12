@@ -44,7 +44,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 $nom = $name[0]['LastName'];
                 $prenom = $name[0]['FirstName'];
                 ?>
-                <p class="profile_name"><?php echo $prenom." ".$nom ?></p>
+                <p class="profile_name"><?php echo $prenom . " " . $nom ?></p>
             </div>
             <div class="searchbar">
                 <input class="search_bar" type="text" placeholder="Rechercher">
@@ -77,6 +77,23 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 <i class="linkify icon"></i>
                 <div class="content">
                     <a href="#">nomdurestaurant.com</a>
+                </div>
+            </div>
+            <div class="item">
+                <i class="marker icon"></i>
+                <div class="content">
+                    <?php
+                    $sqa = $db->prepare("SELECT COUNT(*) FROM avis where idU=$idU & idR=$idR");
+                    $sqa->execute();
+                    $tokken = $sqa->fetch();
+                    if ($tokken[0] < 1) {
+                        ?>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            Tokken +1
+                        </button>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
