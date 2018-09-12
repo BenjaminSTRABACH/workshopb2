@@ -17,6 +17,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         <link href="restaurant.css" rel="stylesheet" type="text/css"/>
         <?php include_once 'CDN.php'; ?>
         <link href="Navbar.css" rel="stylesheet" type="text/css"/>
+        <link href="PageResto.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="home_header">
@@ -52,7 +53,19 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
 
             </div>
         </div>
-        <h1><?php echo $nomR ?></h1><br>
+        <h1><?php echo $nomR ?></h1>
+        <?php
+        $req2 = $db->prepare("SELECT `labelC` FROM `categories` join `resto` on categories.idC=resto.idC WHERE resto.idR=$idR");
+        $req2->execute();
+        $cateR = $req2->fetch();
+        $labelR = $cateR[0];
+        
+        $req3 = $db->prepare("SELECT COUNT(*) FROM avis where idR=$idR");
+        $req3->execute();
+        $nbtR = $req3->fetch();
+        $nbTokkensR = $nbtR[0];
+        ?>
+        <p><?php echo $labelR ?> - <?php echo $nbTokkensR ?> Token</p><br>
         <div class="ui horizontal list">
             <div class="item">
                 <i class="marker icon"></i>
@@ -76,7 +89,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     $TelR = $PhR[0];
                     ?>
 
-                    <a tel=<?php echo "0".$TelR ?>>0<?php echo $TelR ?></a>
+                    <a tel=<?php echo "0" . $TelR ?>>0<?php echo $TelR ?></a>
                 </div>
             </div>
             <div class="item">
@@ -98,7 +111,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     $sqa = $db->prepare("SELECT COUNT(*) FROM avis where idU=$idU && idR=$idR");
                     $sqa->execute();
                     $tokken = $sqa->fetch();
-                    
+
                     if ($tokken[0] == 0) {
                         ?>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -128,7 +141,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat2['vegan'] == '0'){
+                } else if ($resultat2['vegan'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -137,7 +150,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
 <!--                <i class="fas fa-check fa-lg" style="color:green;" ></i>-->
             </div>
             <div class="col-md-2">
-                	Air Conditionné
+                Air Conditionné
             </div>
             <div class="col-md-1">
                 <?php
@@ -148,7 +161,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat3['air'] == '0'){
+                } else if ($resultat3['air'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -169,7 +182,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat4['parking'] == '0'){
+                } else if ($resultat4['parking'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -188,7 +201,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat5['gluten'] == '0'){
+                } else if ($resultat5['gluten'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -210,7 +223,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat6['handicap'] == '0'){
+                } else if ($resultat6['handicap'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -221,7 +234,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 Plats BIO
             </div>
             <div class="col-md-1">
-                 <?php
+                <?php
                 $sql7 = $db->prepare("SELECT bio from resto where idR=$idR");
                 $sql7->execute();
                 $resultat7 = $sql7->fetch();
@@ -229,7 +242,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat7['bio'] == '0'){
+                } else if ($resultat7['bio'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -243,7 +256,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 Terrasse
             </div>
             <div class="col-md-1">
-                 <?php
+                <?php
                 $sql8 = $db->prepare("SELECT terrasse from resto where idR=$idR");
                 $sql8->execute();
                 $resultat8 = $sql8->fetch();
@@ -251,7 +264,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat8['terrasse'] == '0'){
+                } else if ($resultat8['terrasse'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -262,7 +275,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                 Menu enfants
             </div>
             <div class="col-md-1">
-                 <?php
+                <?php
                 $sql9 = $db->prepare("SELECT enfant from resto where idR=$idR");
                 $sql9->execute();
                 $resultat9 = $sql9->fetch();
@@ -270,7 +283,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
                     ?>
                     <i class="fas fa-check fa-lg" style="color:green;" ></i>
                     <?php
-                } else if ($resultat9['enfant'] == '0'){
+                } else if ($resultat9['enfant'] == '0') {
                     ?>
                     <i class="fas  fa-times fa-lg" style="color:red;"></i>
                     <?php
@@ -303,19 +316,14 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
             $sql->execute();
             $comment = $sql->fetchAll();
             $nomU = $comment[$i]['FirstName'] . " " . $comment[$i]['LastName'];
-            if ($comment[$i]['Avis']!=""){
-            echo $nomU;
-            echo '<br>';
-            echo $comment[$i]['Avis'];
-            echo'<br>';
+            if ($comment[$i]['Avis'] != "") {
+                echo $nomU;
+                echo '<br>';
+                echo $comment[$i]['Avis'];
+                echo'<br>';
             }
         }
         ?>
-
-
-
-
-
 
         <!--------------------------------------Popup---------------------------------------------------------------------------->
 
