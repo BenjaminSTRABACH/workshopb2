@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 12 sep. 2018 à 08:02
+-- Généré le :  mer. 12 sep. 2018 à 15:15
 -- Version du serveur :  5.7.21
 -- Version de PHP :  5.6.35
 
@@ -37,7 +37,15 @@ CREATE TABLE IF NOT EXISTS `avis` (
   PRIMARY KEY (`idTokken`),
   KEY `idR` (`idR`),
   KEY `idU` (`idU`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `avis`
+--
+
+INSERT INTO `avis` (`idR`, `idU`, `Avis`, `idTokken`) VALUES
+(2, 1, '', 3),
+(1, 1, 'feeajef', 5);
 
 -- --------------------------------------------------------
 
@@ -75,6 +83,16 @@ CREATE TABLE IF NOT EXISTS `resto` (
   `idC` int(11) NOT NULL,
   `Nom` varchar(100) NOT NULL,
   `Code_Postal` int(11) NOT NULL,
+  `Telephone` int(11) NOT NULL,
+  `Site` varchar(200) NOT NULL,
+  `vegan` tinyint(1) NOT NULL,
+  `parking` tinyint(1) NOT NULL,
+  `enfant` tinyint(1) NOT NULL,
+  `handicap` tinyint(1) NOT NULL,
+  `terrasse` tinyint(1) NOT NULL,
+  `bio` tinyint(1) NOT NULL,
+  `gluten` tinyint(1) NOT NULL,
+  `air` tinyint(1) NOT NULL,
   PRIMARY KEY (`idR`),
   KEY `idC` (`idC`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -83,9 +101,9 @@ CREATE TABLE IF NOT EXISTS `resto` (
 -- Déchargement des données de la table `resto`
 --
 
-INSERT INTO `resto` (`idR`, `Ville`, `Adresse`, `Classement`, `idC`, `Nom`, `Code_Postal`) VALUES
-(1, 'Nantes', '57 boulevard Victor Hugo', 1, 2, 'Zac', 44200),
-(2, 'Nantes', '16 boulevard Général de Gaule', 2, 1, 'Dominos', 44200);
+INSERT INTO `resto` (`idR`, `Ville`, `Adresse`, `Classement`, `idC`, `Nom`, `Code_Postal`, `Telephone`, `Site`, `vegan`, `parking`, `enfant`, `handicap`, `terrasse`, `bio`, `gluten`, `air`) VALUES
+(1, 'Nantes', '57 boulevard Victor Hugo', 1, 2, 'Zac', 44200, 606060606, 'https://www.google.fr/', 0, 1, 1, 0, 1, 0, 0, 0),
+(2, 'Nantes', '16 boulevard Général de Gaule', 2, 1, 'Dominos', 44200, 606060606, 'https://guce.oath.com/collectConsent?sessionId=3_cc-session_a90b10f4-2b25-46eb-bd3a-72c1e5f79058&lang=fr-FR&inline=false&jsVersion=null&experiment=null', 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
