@@ -1,5 +1,5 @@
 <?php
-// include 'bootstrap.php';
+include 'bootstrap.php';
 include_once 'Config.php';
 $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Config::UTILISATEUR, Config::MOTDEPASSE);
 if (isset($_GET['search'])){

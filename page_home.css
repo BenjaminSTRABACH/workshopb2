@@ -47,6 +47,7 @@ NAVBAR
     flex-direction: row;
     justify-content: center;
     align-items: center; 
+    margin: 0;
 }
 
 .search-bar {
@@ -83,6 +84,7 @@ NAVBAR
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin: 0;
 }
 
 .search_bar {
@@ -114,7 +116,7 @@ LISTE
 
 .list {
     width: 60%;
-    height: 140px;
+    height: 160px;
     padding: 16px;
     background-color: beige;
     border-bottom: solid;
@@ -137,6 +139,10 @@ LISTE
     align-items: center;
 }
 
+.category_text {
+    margin:0
+}
+
 .place_name {
     font-size: 20px;
 }
@@ -149,4 +155,12 @@ LISTE
     height: 32px;
     width: 87%;
     background-color: aqua;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.token_score_text {
+    margin: 0;
+    margin-left: 8px;
 }
