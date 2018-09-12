@@ -1,3 +1,9 @@
+<?php
+// include 'bootstrap.php';
+include_once 'Config.php';
+$db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Config::UTILISATEUR, Config::MOTDEPASSE);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -18,17 +24,40 @@
                 <p class="profile_name">Benjamin STRABACH</p>
             </div>
             <div class="searchbar">
-                <input class="search_bar" type="text" placeholder="Rechercher">
+                <input class="search-bar" type="text" placeholder="Rechercher">
                 <input class="search-btn" type="submit" value="Rechercher">
             </div>
             <div class="disconnect">
                 <input class="disconnect-btn" type="button" value="Déconnexion">
             </div>
         </div>
+
+        <?php 
+        $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville` FROM `resto`");
+        $sql->execute();
+        $result = $sql->fetchAll();
+        ?>
+
         <div class="search_list">
-            <div class="list">
-                
-            </div>
+            <?php 
+            for ($i = 0; $i < count($result); $i++) {
+                $address = $result[$i][1] . ", " . $result[$i][2] . " " . $result[$i][3];
+                ?> 
+                <div class="list"> 
+                    <strong class="place_name"> <?php echo($result[$i][0]) ?></strong>
+                    <p class="place_address"><?php echo($address)?></p>
+                    <div class="category">
+                        <img class="category_pict" src="medias/logo_category.png">
+                        <p class="category_text">Vegan</p>
+                    </div>
+                    <div class="token_score">
+                    
+                    </div>
+                </div>
+                <?php
+            }
+
+            ?>
             <div class="list">
                 <strong class="place_name">Nom restaurant</strong>
                 <p class="place_address">Adresse</p>
@@ -40,17 +69,19 @@
                     
                 </div>
             </div>
-            <div class="list">
-                
-            </div>
-            <div class="list">
-                
-            </div>
-            <div class="list">
-                
-            </div>
         </div>
     </div>
 
 </body>
 
+<!--        <div class="list">
+                <strong class="place_name">Nom restaurant</strong>
+                <p class="place_address">Adresse</p>
+                <div class="category">
+                    <img class="category_pict" src="medias/logo_category.png">
+                    <p class="category_text">Vegan</p>
+                </div>
+                <div class="token_score">
+                    
+                </div>
+            </div> -->
