@@ -1,3 +1,4 @@
+<link href="navbar.css" rel="stylesheet" type="text/css"/>
 <div class="header">
     <div class="user_info">
         <img class="profile_pict_small" src="medias/user.jpg">
