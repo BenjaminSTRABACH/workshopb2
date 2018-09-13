@@ -32,17 +32,24 @@ if (isset($_GET['category'])){
         <?php include 'navbar.php'; ?>
         <?php 
         if($searchP != "" && $searchC != ""){   //Tout plein
-            $sql = $db->prepare("SELECT `idR`, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
-                                 JOIN `categories` ON resto.idC = categories.idC WHERE resto.Ville LIKE '%$searchP%' && categories.LabelC='$searchC'");
+            $sql = $db->prepare("SELECT resto.idR,, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC 
+                                 WHERE resto.Ville LIKE '%$searchP%' && categories.LabelC='$searchC'
+                                 ORDER BY classement asc");
         } else if($searchP != "" && $searchC == "") { //Ville mais pas Catégorie
-            $sql = $db->prepare("SELECT `idR`, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
-                                 JOIN `categories` ON resto.idC = categories.idC WHERE resto.Ville LIKE '%$searchP%'");
+            $sql = $db->prepare("SELECT resto.idR,, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC 
+                                 WHERE resto.Ville LIKE '%$searchP%'
+                                 ORDER BY classement asc");
         } else if($searchC != "" && $searchP == ""){  //Pas Ville mais Catégorie
-            $sql = $db->prepare("SELECT `idR`, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
-                                 JOIN `categories` ON resto.idC = categories.idC WHERE categories.LabelC='$searchC'");
+            $sql = $db->prepare("SELECT resto.idR, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC 
+                                 WHERE categories.LabelC='$searchC'
+                                 ORDER BY classement asc");
         } else {    //Tout vide
-            $sql = $db->prepare("SELECT `idR`, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
-                                 JOIN `categories` ON resto.idC = categories.idC");
+            $sql = $db->prepare("SELECT resto.idR, `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
+                                 JOIN `categories` ON resto.idC = categories.idC
+                                 ORDER BY classement asc");
         }
 
         // $sql = $db->prepare("SELECT `Nom`, `Adresse`, `Code_Postal`, `Ville`, `LabelC` FROM `resto` 
@@ -58,19 +65,26 @@ if (isset($_GET['category'])){
                 $sqa = $db->prepare("SELECT COUNT(*) FROM avis where idR=$idR");
                 $sqa->execute();
                 $token = $sqa->fetch();
-
+                $hrefR = '"pageResto?idR=' . $result[$i][0] . '"';
+                if ($i == 0) {
+                    $tMax = $token[0];
+                }
+                $progress = $token[0]*100;
+                $progress /= $tMax;
+                
                 $address = $result[$i][2] . ", " . $result[$i][3] . " " . $result[$i][4];
                 ?> 
-                <div class="list"> 
-                    <strong class="place_name"> <?php echo($result[$i][1]) ?></strong>
+                <div class="list">
+                    <strong class="place_name"> <a href=<?php echo($hrefR)?>><?php echo($result[$i][1])?></a></strong>
                     <p class="place_address"><?php echo($address)?></p>
                     <div class="category">
                         <img class="category_pict" src="medias/category.png">
                         <p class="category_text"><?php echo($result[$i][5])?></p>
                     </div>
                     <div class="token_score">
-                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                         <p class="token_score_text"><?php echo($token[0])?></p>
+                        <div class="progress-bar" role="progressbar" style="width: <?php echo($progress)?>%" aria-valuemin="0" aria-valuemax="100"></div>
+                        
                     </div>
                 </div>
                 <?php

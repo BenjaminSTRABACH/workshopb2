@@ -34,26 +34,7 @@ $db = new PDO("mysql:host=" . Config::SERVEUR . ";dbname=" . Config::BASE, Confi
         <link href="Navbar.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div class="home_header">
-            <div class="user_info">
-                <img class="profile_pict_small" src="medias/user.jpg">
-                <?php
-                $req = $db->prepare("SELECT `LastName`, `FirstName` FROM `User` WHERE idUser=$idU");
-                $req->execute();
-                $name = $req->fetchAll();
-                $nom = $name[0]['LastName'];
-                $prenom = $name[0]['FirstName'];
-                ?>
-                <p class="profile_name"><?php echo $prenom . " " . $nom ?></p>
-            </div>
-            <div class="searchbar">
-                <input class="search_bar" type="text" placeholder="Rechercher">
-                <input class="search-btn" type="submit" value="Rechercher">
-            </div>
-            <div class="disconnect">
-                <input class="disconnect-btn" type="button" value="Déconnexion">
-            </div>
-        </div>
+        <?php include 'navbar.php'; ?>
         <div class="row">
             <div class="col-md-5">
                 <h1>Nom du restaurant</h1>
